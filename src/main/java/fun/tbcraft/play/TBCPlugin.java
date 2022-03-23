@@ -1,7 +1,5 @@
 package fun.tbcraft.play;
 
-import com.sk89q.worldguard.WorldGuard;
-import io.lumine.mythic.lib.comp.flags.WorldGuardFlags;
 import me.devtec.shared.dataholder.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -96,5 +94,13 @@ public class TBCPlugin extends JavaPlugin {
 
     public static Config getSettings() {
         return settings;
+    }
+    public static void debug(String string){
+        Logger m = Logger.getLogger("Minecraft");
+
+        m.warning(() -> "[TBC] -> " + string);
+    }
+    public static DamageManager getDamageManager(){
+        return new DamageManager(getMainConfig());
     }
 }

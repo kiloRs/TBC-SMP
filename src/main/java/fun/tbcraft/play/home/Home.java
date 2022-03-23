@@ -3,6 +3,7 @@ package fun.tbcraft.play.home;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldguard.WorldGuard;
 import de.jeff_media.jefflib.ProfileUtils;
 import fun.tbcraft.play.TBCPlayer;
 import fun.tbcraft.play.TBCPlugin;
@@ -47,7 +48,9 @@ public class Home {
             throw new RuntimeException("Invalid World For Chunks of " + player.getStoredPlayer().getName());
         }
         com.sk89q.worldedit.world.World convertedWorld = BukkitAdapter.adapt(world);
-        region = new CuboidRegion(convertedWorld,Bu)
+        region = new CuboidRegion(convertedWorld, )
+
+                ch
     }
 
     private void loadAllChunks(TBCPlayer player, List<String> list) {
