@@ -1,11 +1,15 @@
 package fun.tbcraft.play;
 
 import me.devtec.shared.dataholder.Config;
+import me.devtec.shared.dataholder.DataType;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class TBCPlugin extends JavaPlugin {
@@ -38,6 +42,14 @@ public class TBCPlugin extends JavaPlugin {
 
         loadSettings(!settings.getKeys().isEmpty(),settings);
 
+        if (!mainConfig.existsKey("Attack.Listener")) {
+            mainConfig.setIfAbsent("Attack.Listener",true, List.of("#True to enable block and entity listeners!"));
+            mainConfig.save(DataType.YAML);
+
+            Server bukkit = Bukkit.getServer();
+
+            bukkit.addFuel(Material.BEDROCK,10000);
+        }
         log("-Loading Hooked Plugins...");
         if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
             log("Located MythicMobs");
@@ -85,6 +97,7 @@ public class TBCPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         javaPlugin = this;
+        getMessageUtil().
     }
 
     @Override
@@ -100,7 +113,10 @@ public class TBCPlugin extends JavaPlugin {
 
         m.warning(() -> "[TBC] -> " + string);
     }
-    public static DamageManager getDamageManager(){
-        return new DamageManager(getMainConfig());
+    public static MessageUtil getMessageUtil(){
+       return getMessageUtil(TBCPlugin.getMainConfig());
+    }
+    public static MessageUtil getMessageUtil(Config toUse){
+        return new MessageUtil(toUse);
     }
 }

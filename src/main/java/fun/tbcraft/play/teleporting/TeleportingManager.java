@@ -3,54 +3,54 @@ package fun.tbcraft.play.teleporting;
 import de.jeff_media.jefflib.AnimationUtils;
 import de.jeff_media.jefflib.TextUtils;
 import fun.tbcraft.play.TBCPlayer;
+import me.playajames.flagslib.FlagManager;
+import me.playajames.flagslib.flagtypes.Flag;
+import me.playajames.flagslib.flagtypes.LocationFlag;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import org.bukkit.Location;
 
 public class TeleportingManager {
+    private final TBCPlayer tbcPlayer;
     private final PlayerData core;
-    private final Location location;
     private final String m = "You have teleported at the cost of %s stellium";
-    private final Location teleportingTo;
+    private Location teleportingTo;
 
     public TeleportingManager(TBCPlayer player, Location teleportingTo){
         this.teleportingTo = teleportingTo;
-        core = player.getCorePlayerData();
-        this.location= core.getPlayer().getLocation();
+        this.tbcPlayer = player;
+        this.core = player.getCorePlayerData();
     }
 
-    public void parse(){
-        if (canTeleport()){
-            core.getPlayer().teleport(teleportingTo);
-
+    private boolean spendCost(double stellium, double rate) {
+        core.setStellium(stellium - rate);
+        if (core.getStellium()>0){
+            return true;
         }
-    }
-    private boolean canTeleport() {
-
-        double amount = teleportingTo.distanceSquared(location);
-
-
-
-        double stellium = core.getStellium();
-
-        double rate = amount * 5 + 7;
-
-        if (stellium - rate < 0){
+        else {
+            core.setStellium(stellium);
             return false;
         }
-
-        spendCost(stellium, rate);
-        return true;
     }
 
-    private void spendCost(double stellium, double rate) {
-        core.setStellium(stellium - rate);
+    private boolean hasFlag(){
+        return FlagManager.hasFlag(tbcPlayer.getStoredPlayer().getLocation(),"cheap-travel");
+
     }
-    private void teleport(boolean can){
-        if (can){core.getPlayer().teleport(teleportingTo);}
-        else {
-            AnimationUtils.playTotemAnimation(core.getPlayer(),1);
-            TextUtils.banner(TextUtils.color("&cFailure!"));
+    public Flag getFlag(){
+        return FlagManager.getFlag(tbcPlayer.getStoredPlayer().getLocation(), "cheap-travel");
+    }
+
+    public boolean teleport(Location result){
+        this.teleportingTo = result;
+        double rating = (tbcPlayer.getStoredPlayer().getLocation().distanceSquared(result) * 5 - 7);
+        if (spendCost(core.getStellium(), rating)) {
+            tbcPlayer.getStoredPlayer().teleport(result);
+            return true;
         }
+        return false;
     }
 
+    public Location getTeleportingTo() {
+        return teleportingTo;
+    }
 }

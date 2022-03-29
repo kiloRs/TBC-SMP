@@ -137,19 +137,49 @@
             <id>playpro-repo</id>
             <url>https://maven.playpro.com</url>
         </repository>
-        <!--CustomBlockData-->
+        <!--FLAG LIB? -->
+        <repository>
+            <id>tds-repository-snapshots</id>
+            <name>TDSMC Maven</name>
+            <url>https://maven.tdsmc.com/snapshots</url>
+        </repository>
+        <!--TownyMap-->
+        <repository>
+            <id>glaremasters repo</id>
+            <url>https://repo.glaremasters.me/repository/towny/</url>
+        </repository>
+        <!-- SirBlobman Public Repository -->
+        <repository>
+            <id>sirblobman-public</id>
+            <url>https://nexus.sirblobman.xyz/repository/public/</url>
+        </repository>
     </repositories>
     <dependencies>
+        <!-- SirBlobmanCore Plugin -->
+        <dependency>
+            <groupId>com.github.sirblobman.api</groupId>
+            <artifactId>core</artifactId>
+            <version>2.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--Flag-->
+        <dependency>
+            <groupId>me.playajames.flags-lib</groupId>
+            <artifactId>flags-lib</artifactId>
+            <version>1.0.0-dev-SNAPSHOT</version>
+        </dependency>
         <!--Packet-->
         <dependency>
             <groupId>org.inventivetalent.packetlistenerapi</groupId>
             <artifactId>api</artifactId>
             <version>3.9.9-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>glowapi</artifactId>
-            <version>1.4.8</version>
+            <version>1.5.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -164,6 +194,13 @@
             <version>7.7.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <!--TownyMap-->
+        <dependency>
+            <groupId>me.silverwolfg11</groupId>
+            <artifactId>maptowny-api</artifactId>
+            <version>2.0.0-BETA-2</version>
+        </dependency>
+        <!--CustomBlockData-->
         <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlockData</artifactId>
@@ -176,13 +213,6 @@
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.8.0</version>
-        </dependency>
-        <!--CoreProt-->
-        <dependency>
-            <groupId>net.coreprotect</groupId>
-            <artifactId>coreprotect</artifactId>
-            <version>21.1</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.purpurmc.purpur</groupId>

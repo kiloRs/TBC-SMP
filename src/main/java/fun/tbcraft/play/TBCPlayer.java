@@ -1,7 +1,7 @@
 package fun.tbcraft.play;
 
+import de.jeff_media.jefflib.TextUtils;
 import de.jeff_media.jefflib.data.ShadowPlayer;
-import fun.tbcraft.play.pvp.TogglingPVPHandler;
 import io.lumine.mythic.lib.api.player.MMOPlayerData;
 import io.lumine.mythic.lib.api.util.EnumUtils;
 import me.devtec.shared.API;
@@ -11,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -28,12 +29,18 @@ public class TBCPlayer {
     private boolean fullyLoaded = false;
     private final PlayerClassType classType;
     private final int score = 0;
+    private int combatTime;
+    private boolean inCombat = false;
+    private BukkitRunnable combat;
 
     public static TBCPlayer get(UUID uuid){
         return new TBCPlayer(uuid);
     }
     public static TBCPlayer get(Player p){
         return new TBCPlayer(p.getUniqueId());
+    }
+    public void setLoaded(boolean state){
+        this.fullyLoaded = state;
     }
     public TBCPlayer(UUID id){
         UUID uuid = Validate.notNull(id, "Invalid UUID Number");
@@ -51,8 +58,11 @@ public class TBCPlayer {
         this.classType = EnumUtils.getIfPresent(PlayerClassType.class , corePlayerData.getProfess().getId()).orElseThrow(( ) -> new RuntimeException("Bad Class Type Data"));
         this.resourcePackStatus = storedPlayer.getResourcePackStatus();
         user = API.getUser(storedPlayer.getUniqueId());
+        if (!fullyLoaded){
         fullyLoaded = true;
     }
+    }
+
 
     public net.Indyuce.mmoitems.api.player.PlayerData getItemsPlayerData ( ) {
         return itemsPlayerData;
@@ -81,20 +91,20 @@ public class TBCPlayer {
         return resourcePackStatus;
     }
 
-    public TogglingPVPHandler pvpHandler(){
-        return new TogglingPVPHandler(storedPlayer);
-    }
     //Checks if initialized already.
     public boolean isFullyLoaded() {
         return fullyLoaded;
     }
 
-    private boolean hasHome(){
-        return false;
-    }
-    private void setHome(){}
-
     public Config getUser() {
         return user;
+    }
+
+
+    public void setInCombat(boolean trueFalse){
+        inCombat = trueFalse;
+    }
+    public boolean isInCombat(){
+        return inCombat;
     }
 }
