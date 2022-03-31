@@ -16,7 +16,8 @@ public class TeleportationFlagHandler {
 
     }
     private void save(){
-        this.flag.setTemp();
+
+        //TODO - Finish Save Method
     }
     public void increase(int byAmount){
         this.uses = uses + byAmount;

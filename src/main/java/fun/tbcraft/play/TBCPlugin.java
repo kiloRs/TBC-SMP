@@ -1,9 +1,9 @@
 package fun.tbcraft.play;
 
+import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +33,7 @@ public class TBCPlugin extends JavaPlugin {
         return commands;
     }
 
+
     @Override
     public void onLoad() {
         javaPlugin = this;
@@ -47,8 +48,6 @@ public class TBCPlugin extends JavaPlugin {
             mainConfig.save(DataType.YAML);
 
             Server bukkit = Bukkit.getServer();
-
-            bukkit.addFuel(Material.BEDROCK,10000);
         }
         log("-Loading Hooked Plugins...");
         if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
@@ -97,7 +96,11 @@ public class TBCPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         javaPlugin = this;
-        getMessageUtil().
+        MessageUtil.Message welcome = getMessageUtil().getMessage("default.welcome");
+
+        if (welcome != null){
+            String naturalWelcomeMessage = welcome.getMessageNatural();
+        }
     }
 
     @Override
@@ -118,5 +121,22 @@ public class TBCPlugin extends JavaPlugin {
     }
     public static MessageUtil getMessageUtil(Config toUse){
         return new MessageUtil(toUse);
+    }
+
+    public enum Constants{
+        WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
+        private final String key;
+
+        Constants(String key){
+
+            this.key = key;
+        }
+
+        private String getKey() {
+            return key;
+        }
+        public String getPath(){
+            return "Message." + key;
+        }
     }
 }
