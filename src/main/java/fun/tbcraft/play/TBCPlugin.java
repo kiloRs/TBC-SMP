@@ -3,9 +3,12 @@ package fun.tbcraft.play;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
+import net.Indyuce.mmocore.MMOCore;
+import net.Indyuce.mmocore.api.MMOCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -20,6 +23,7 @@ public class TBCPlugin extends JavaPlugin {
     private static Config settings;
     private static final Logger minecraft = Logger.getLogger("Minecraft");
     private static Config commands;
+    private static MMOCoreAPI mmoCoreAPI;
 
     public static Plugin getPlugin(){
         return javaPlugin;
@@ -98,8 +102,14 @@ public class TBCPlugin extends JavaPlugin {
         javaPlugin = this;
         MessageUtil.Message welcome = getMessageUtil().getMessage("default.welcome");
 
+        if (settings.getKeys().isEmpty()){
+            loadSettings(true,settings);
+        }
         if (welcome != null){
             String naturalWelcomeMessage = welcome.getMessageNatural();
+        }
+        if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
+            mmoCoreAPI = new MMOCoreAPI(this);
         }
     }
 
@@ -110,6 +120,13 @@ public class TBCPlugin extends JavaPlugin {
 
     public static Config getSettings() {
         return settings;
+    }
+    public static void debug(String word, int level){
+        if (settings.exists("Debug.Level")){
+            if (settings.getInt("Debug.Level")>level){
+                debug(word);
+            }
+        }
     }
     public static void debug(String string){
         Logger m = Logger.getLogger("Minecraft");
@@ -123,6 +140,10 @@ public class TBCPlugin extends JavaPlugin {
         return new MessageUtil(toUse);
     }
 
+    public static MMOCoreAPI getMmoCoreAPI() {
+        return mmoCoreAPI;
+    }
+
     public enum Constants{
         WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
         private final String key;
@@ -131,7 +152,6 @@ public class TBCPlugin extends JavaPlugin {
 
             this.key = key;
         }
-
         private String getKey() {
             return key;
         }

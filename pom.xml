@@ -258,7 +258,7 @@
         <dependency>
             <groupId>net.Indyuce</groupId>
             <artifactId>MMOItems</artifactId>
-            <version>6.7.1</version>
+            <version>6.7.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -299,6 +299,29 @@
             <artifactId>GuiLib-Plugin</artifactId>
             <version>v1.11.7</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
