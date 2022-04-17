@@ -3,12 +3,9 @@ package fun.tbcraft.play;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import me.devtec.shared.dataholder.DataType;
-import net.Indyuce.mmocore.MMOCore;
-import net.Indyuce.mmocore.api.MMOCoreAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -22,8 +19,7 @@ public class TBCPlugin extends JavaPlugin {
     private static final boolean containsExtraData = false;
     private static Config settings;
     private static final Logger minecraft = Logger.getLogger("Minecraft");
-    private static Config commands;
-    private static MMOCoreAPI mmoCoreAPI;
+    private final String tbcCore = "tbcCore";
 
     public static Plugin getPlugin(){
         return javaPlugin;
@@ -33,17 +29,12 @@ public class TBCPlugin extends JavaPlugin {
         return mainConfig;
     }
 
-    public static Config getCommands() {
-        return commands;
-    }
-
 
     @Override
     public void onLoad() {
         javaPlugin = this;
-        mainConfig = new Config("tbcSMP/" + "config.yml");
-        settings = new Config("tbcSMP/" + "settings.yml");
-        commands = new Config("tbcSMP/" + "commands.yml");
+        mainConfig = new Config(tbcCore + "/" + "config.yml");
+        settings = new Config(tbcCore + "/" + "settings.yml");
 
         loadSettings(!settings.getKeys().isEmpty(),settings);
 
@@ -91,26 +82,16 @@ public class TBCPlugin extends JavaPlugin {
     }
     private static void log(String s, boolean urgent) {
         if (urgent) {
-            minecraft.warning("[TBC SMP] - " + s);
+            minecraft.warning("[TBC LOGGER] - " + s);
             return;
         }
-        minecraft.info("[ T B C - S M P ] " + s);
+        minecraft.info("[ T B C - L O G ] " + s);
     }
 
     @Override
     public void onEnable() {
         javaPlugin = this;
-        MessageUtil.Message welcome = getMessageUtil().getMessage("default.welcome");
 
-        if (settings.getKeys().isEmpty()){
-            loadSettings(true,settings);
-        }
-        if (welcome != null){
-            String naturalWelcomeMessage = welcome.getMessageNatural();
-        }
-        if (Bukkit.getPluginManager().isPluginEnabled("MMOCore")){
-            mmoCoreAPI = new MMOCoreAPI(this);
-        }
     }
 
     @Override
@@ -136,21 +117,18 @@ public class TBCPlugin extends JavaPlugin {
     public static MessageUtil getMessageUtil(){
        return getMessageUtil(TBCPlugin.getMainConfig());
     }
-    public static MessageUtil getMessageUtil(Config toUse){
+    private static MessageUtil getMessageUtil(Config toUse){
         return new MessageUtil(toUse);
     }
 
-    public static MMOCoreAPI getMmoCoreAPI() {
-        return mmoCoreAPI;
-    }
 
     public enum Constants{
         WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
         private final String key;
-
+        private MessageUtil.Message message;
         Constants(String key){
-
             this.key = key;
+            this.message = getMessageUtil().getMessage(this.key);
         }
         private String getKey() {
             return key;

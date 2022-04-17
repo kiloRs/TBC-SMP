@@ -5,7 +5,6 @@ import io.lumine.mythic.lib.api.player.MMOPlayerData;
 import io.lumine.mythic.lib.api.util.EnumUtils;
 import me.devtec.shared.API;
 import me.devtec.shared.dataholder.Config;
-import net.Indyuce.mmocore.api.event.PlayerResourceUpdateEvent;
 import net.Indyuce.mmocore.api.player.profess.PlayerClass;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -18,15 +17,15 @@ import java.util.UUID;
 /**
  * Instance of a Player on the TBC Server. Easy to control from one class.
  */
-public class TBCPlayer implements WaypointUser {
-    private Config user;
+public class TBCPlayer {
+    private final Config user;
     private final PlayerResourcePackStatusEvent.@Nullable Status resourcePackStatus;
     private final Player storedPlayer;
     private final MMOPlayerData mmoPlayerData;
     private final net.Indyuce.mmocore.api.player.PlayerData corePlayerData;
     private final net.Indyuce.mmoitems.api.player.PlayerData itemsPlayerData;
     private boolean fullyLoaded = false;
-    private final PlayerClassType classType;
+    private final ClassType classType;
     private final int score = 0;
     private boolean canTeleport;
 
@@ -52,7 +51,7 @@ public class TBCPlayer implements WaypointUser {
         this.corePlayerData = net.Indyuce.mmocore.api.player.PlayerData.get(uuid);
         this.itemsPlayerData = net.Indyuce.mmoitems.api.player.PlayerData.get(uuid);
         this.fullyLoaded = true;
-        this.classType = EnumUtils.getIfPresent(PlayerClassType.class , corePlayerData.getProfess().getId()).orElseThrow(( ) -> new RuntimeException("Bad Class Type Data"));
+        this.classType = EnumUtils.getIfPresent(ClassType.class , corePlayerData.getProfess().getId()).orElseThrow(( ) -> new RuntimeException("Bad Class Type Data"));
         this.resourcePackStatus = storedPlayer.getResourcePackStatus();
         user = API.getUser(storedPlayer.getUniqueId());
         if (!fullyLoaded){
@@ -75,9 +74,9 @@ public class TBCPlayer implements WaypointUser {
     }
 
     public PlayerClass getPlayerClass(){
-        return classType.get();
+        return classType.getPlayerClass();
     }
-    public PlayerClassType getPlayerClassType(){
+    public ClassType getPlayerClassType(){
         return classType;
     }
 

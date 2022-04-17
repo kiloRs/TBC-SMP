@@ -2,6 +2,6 @@ api-version: 1.18
 author: Kilo
 description: The core plugin for TheBetterChoice
 name: TBCCore
-version: 1.0.3
+version: 1.0.1
 main: fun.tbcraft.play.TBCPlugin
 website: https://www.tbcraft.fun
