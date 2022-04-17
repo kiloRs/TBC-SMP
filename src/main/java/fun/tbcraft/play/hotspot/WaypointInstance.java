@@ -12,14 +12,18 @@ import java.util.Set;
 public class WaypointInstance extends Serializable implements BasicWaypoint{
 
     private @Nullable ConfigurationSection configuration = TBCPlugin.getPlugin().getConfig();
-    private String id;
+    private final String id;
     private  String name = "";
-    private Location loc;
+    private final Location loc;
     private double rate = 1.0;
     private boolean stored = false;
-    private HashMap<String, String> map = new HashMap<>();
+    private final HashMap<String, String> map = new HashMap<>();
     private String perm = "";
-    public WaypointInstance(String id, Location loc){
+
+    public WaypointInstance(String id, Location location){
+        this(id,false,location);
+    }
+    public WaypointInstance(String id,boolean p, Location loc){
         if (id.contains("-")){
             this.id = id.split("-")[0];
             this.rate = Double.parseDouble(id.split("-")[1]);
@@ -27,6 +31,7 @@ public class WaypointInstance extends Serializable implements BasicWaypoint{
         else {
             this.id = id;
         }
+        this.perm = p?"waypoint." + this.id:"";
         this.loc = loc;
         this.name = id;
 
@@ -47,7 +52,7 @@ public class WaypointInstance extends Serializable implements BasicWaypoint{
             }
             Set<String> keys = configuration.getKeys(false);
 
-            for (String key : keys) {g
+            for (String key : keys) {
                 if (getSection().isConfigurationSection(key)) {
                     ConfigurationSection sub = getSection().getConfigurationSection(key);
 
@@ -92,7 +97,7 @@ public class WaypointInstance extends Serializable implements BasicWaypoint{
         getSerialized().put("loc.x",String.valueOf(loc.getBlockX()));
         getSerialized().put("loc.y",String.valueOf(loc.getBlockY()));
         getSerialized().put("loc.z",String.valueOf(loc.getBlockZ()));
-        getSerialized().put("loc.world",String.valueOf(loc.getWorld().getName()));
+        getSerialized().put("loc.world", loc.getWorld().getName());
         getSerialized().put("perm.required","false");
         getSerialized().put("perm.value","");
     }
