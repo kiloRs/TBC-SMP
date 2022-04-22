@@ -1,6 +1,7 @@
 package fun.tbcraft.play;
 
 import de.jeff_media.jefflib.data.ShadowPlayer;
+import fun.tbcraft.play.economy.ClassType;
 import io.lumine.mythic.lib.api.player.MMOPlayerData;
 import io.lumine.mythic.lib.api.util.EnumUtils;
 import me.devtec.shared.API;
@@ -26,8 +27,14 @@ public class TBCPlayer {
     private final net.Indyuce.mmoitems.api.player.PlayerData itemsPlayerData;
     private boolean fullyLoaded = false;
     private final ClassType classType;
-    private final int score = 0;
-    private boolean canTeleport;
+
+
+    //Special Ones
+
+    private final double stelliumMultiplier = 1.0;
+    private final int tokensRemaining = 0;
+    private final int tokensOffered = 0;
+
 
     public static TBCPlayer get(UUID uuid){
         return new TBCPlayer(uuid);
@@ -54,10 +61,8 @@ public class TBCPlayer {
         this.classType = EnumUtils.getIfPresent(ClassType.class , corePlayerData.getProfess().getId()).orElseThrow(( ) -> new RuntimeException("Bad Class Type Data"));
         this.resourcePackStatus = storedPlayer.getResourcePackStatus();
         user = API.getUser(storedPlayer.getUniqueId());
-        if (!fullyLoaded){
-            this.canTeleport = true;
-            fullyLoaded = true;
-    }
+
+
     }
 
 

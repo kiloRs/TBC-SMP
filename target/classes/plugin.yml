@@ -2,6 +2,24 @@ api-version: 1.18
 author: Kilo
 description: The core plugin for TheBetterChoice
 name: TBCCore
-version: 1.0.1
+version: 1.0.5.1
 main: fun.tbcraft.play.TBCPlugin
 website: https://www.tbcraft.fun
+softdepend:
+  - AdvancedEnchantments
+  - MythicLib
+  - MythicMobs
+  - MMOCore
+  - MMOItems
+  - MythicEnchants
+  - Spartan
+  - SuperAuth
+depend:
+  - TheAPI
+commands:
+  tbc:
+    description: "Base Command"
+    aliases: "TheBetterChoice"
+    permission: ""
+    permission-message: "You have no perms for this!"
+    usage: "TBC <Arguments>"

@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.inventivetalent.org/content/repositories/releases/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="theprogramsrc" />
+      <option name="name" value="theprogramsrc" />
+      <option name="url" value="https://repo.theprogramsrc.xyz/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -17,9 +22,19 @@
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="sonatype" />
+      <option name="name" value="sonatype" />
+      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="placeholderapi" />
+      <option name="name" value="placeholderapi" />
+      <option name="url" value="https://repo.extendedclip.com/content/repositories/placeholderapi/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="purpur" />
@@ -37,9 +52,19 @@
       <option name="url" value="https://maven.enginehub.org/repo/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="codemc-repo" />
+      <option name="name" value="codemc-repo" />
+      <option name="url" value="https://repo.codemc.org/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="tds-repository-snapshots" />
       <option name="name" value="TDSMC Maven" />
       <option name="url" value="https://maven.tdsmc.com/snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="codemc-releases" />
+      <option name="name" value="codemc-releases" />
+      <option name="url" value="https://repo.codemc.io/repository/maven-releases/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="sirblobman-public" />

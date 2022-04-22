@@ -1,25 +1,20 @@
 package fun.tbcraft.play;
 
+import fun.tbcraft.play.commands.SimpleCommand;
+import fun.tbcraft.play.exceptions.InvalidTBCException;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
-import me.devtec.shared.dataholder.DataType;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class TBCPlugin extends JavaPlugin {
-    private static JavaPlugin javaPlugin = (JavaPlugin) Bukkit.getPluginManager().getPlugin("TBC-SMP");
+    private static Plugin javaPlugin = null;
     private static Config mainConfig;
-    @SuppressWarnings("unused")
-    private static final boolean containsExtraData = false;
     private static Config settings;
     private static final Logger minecraft = Logger.getLogger("Minecraft");
-    private final String tbcCore = "tbcCore";
 
     public static Plugin getPlugin(){
         return javaPlugin;
@@ -33,17 +28,20 @@ public class TBCPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         javaPlugin = this;
-        mainConfig = new Config(tbcCore + "/" + "config.yml");
-        settings = new Config(tbcCore + "/" + "settings.yml");
+        String tbcCore = "tbcCore";
+        mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
+        settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
 
         loadSettings(!settings.getKeys().isEmpty(),settings);
 
-        if (!mainConfig.existsKey("Attack.Listener")) {
-            mainConfig.setIfAbsent("Attack.Listener",true, List.of("#True to enable block and entity listeners!"));
-            mainConfig.save(DataType.YAML);
 
-            Server bukkit = Bukkit.getServer();
-        }
+        mainConfig.setIfAbsent("Waypoint.Main.Enabled",false);
+        mainConfig.setIfAbsent("Waypoint.Main.Permission.Required",false);
+        mainConfig.setIfAbsent("Waypoint.Main.Permission.Used","");
+
+        mainConfig.save();
+
+        //TODO Finish COnfigurations
         log("-Loading Hooked Plugins...");
         if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
             log("Located MythicMobs");
@@ -56,6 +54,11 @@ public class TBCPlugin extends JavaPlugin {
         }
         log("-Hooked Plugins Complete");
 
+        var c = new SimpleCommand("TBC");
+
+        if (c.isRegistered()){
+            log("Successful Registered Simple Command");
+        }
         //Load Events Register Listeners
     }
     private static void loadSettings(boolean defaulting, Config whichConfig){
@@ -91,6 +94,51 @@ public class TBCPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         javaPlugin = this;
+        try {
+            MessageUtil.getLoader();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String tbcCore = "tbcCore";
+        mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
+        settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
+
+
+        if (settings.getKeys().isEmpty()){
+            debug("No Settings Found...Loading New Settings - AimCore");
+        }
+        loadSettings(!settings.getKeys().isEmpty(),settings);
+        debug("Successful Debug on Configs");
+
+
+        mainConfig.setIfAbsent("Waypoint.Main.Enabled",false);
+        mainConfig.setIfAbsent("Waypoint.Main.Permission.Required",false);
+        mainConfig.setIfAbsent("Waypoint.Main.Permission.Used","");
+
+        mainConfig.save();
+
+        if (!this.getServer().getOnlineMode()){
+            throw new InvalidTBCException("Online Mode has been disabled, meaning UUID's could be broken!");
+        }
+        log("-Loading Hooked Plugins...");
+        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
+            log("Located MythicMobs");
+        }
+        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MMOCore")){
+            log("Located MMOCore");
+        }
+        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("WorldGuard")){
+            log("Located WorldGuard!");
+        }
+        log("-Hooked Plugins Complete");
+
+        var c = new SimpleCommand("TBC");
+
+        SimpleCommand command = new SimpleCommand("TBC");
+        if (c.isRegistered()){
+            log("Successful Registered Simple Command");
+        }
 
     }
 
@@ -125,7 +173,7 @@ public class TBCPlugin extends JavaPlugin {
     public enum Constants{
         WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
         private final String key;
-        private MessageUtil.Message message;
+        private final MessageUtil.Message message;
         Constants(String key){
             this.key = key;
             this.message = getMessageUtil().getMessage(this.key);

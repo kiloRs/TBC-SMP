@@ -31,6 +31,9 @@ public class MessageUtil {
 
     }
 
+    public static MessageLoader getLoader(){
+        return new MessageLoader();
+    }
     public Message getForcedMessage(String key){
         return new Message(key);
     }
@@ -93,5 +96,41 @@ public class MessageUtil {
             return this.checkedString;
         }
 
+    }
+    public static class MessageLoader{
+        private final String c;
+
+        public MessageLoader(){
+            this("Messages");
+        }
+        private MessageLoader(String coreWord){
+            this.c = coreWord;
+            init();
+        }
+        public void init(){
+            if (loadAll()){
+                TBCPlugin.log("Loaded All Starter Messages - Configure AWAY!");
+                return;
+            }
+            TBCPlugin.log("Failed to Load Messages for Starter");
+        }
+        private boolean loadAll(){
+            int changes = 0;
+            for (TBCPlugin.Constants value : TBCPlugin.Constants.values()) {
+                ++changes;
+                if (TBCPlugin.getMainConfig().exists(c + "." + value.getPath()) && TBCPlugin.getMainConfig().get(c + "." + value.getPath()) != null){
+                    TBCPlugin.log("SKipping Message: " + value.getPath());
+
+                    continue;
+                }
+                TBCPlugin.log("Adding Message: " + value.getPath());
+                TBCPlugin.getMainConfig().setIfAbsent(c + "." + value.getPath(),"Default Message Loaded!");
+            }
+
+            if (TBCPlugin.getMainConfig().getKeys().contains(c) || TBCPlugin.getMainConfig().exists(c)){
+                return TBCPlugin.getMainConfig().getKeys(c).size() == TBCPlugin.Constants.values().length;
+            }
+            return changes==TBCPlugin.Constants.values().length;
+        }
     }
 }
