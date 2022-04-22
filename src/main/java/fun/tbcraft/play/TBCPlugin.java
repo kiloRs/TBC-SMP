@@ -2,7 +2,7 @@ package fun.tbcraft.play;
 
 import fun.tbcraft.play.commands.SimpleCommand;
 import fun.tbcraft.play.enchanting.MenuListener;
-import fun.tbcraft.play.enchanting.cmd;
+import fun.tbcraft.play.enchanting.Command;
 import fun.tbcraft.play.exceptions.InvalidTBCException;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
@@ -147,7 +147,7 @@ public class TBCPlugin extends JavaPlugin {
 
 
         getServer().getPluginManager().registerEvents((Listener)new MenuListener(this), (Plugin)this);
-        getCommand("enchants").setExecutor((CommandExecutor)new cmd());
+        getCommand("enchants").setExecutor((CommandExecutor)new Command());
 
     }
 
