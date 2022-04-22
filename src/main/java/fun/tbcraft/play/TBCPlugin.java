@@ -1,9 +1,13 @@
 package fun.tbcraft.play;
 
 import fun.tbcraft.play.commands.SimpleCommand;
+import fun.tbcraft.play.enchanting.MenuListener;
+import fun.tbcraft.play.enchanting.cmd;
 import fun.tbcraft.play.exceptions.InvalidTBCException;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,7 +15,7 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class TBCPlugin extends JavaPlugin {
-    private static Plugin javaPlugin = null;
+    private static TBCPlugin javaPlugin;
     private static Config mainConfig;
     private static Config settings;
     private static final Logger minecraft = Logger.getLogger("Minecraft");
@@ -140,7 +144,13 @@ public class TBCPlugin extends JavaPlugin {
             log("Successful Registered Simple Command");
         }
 
+
+
+        getServer().getPluginManager().registerEvents((Listener)new MenuListener(this), (Plugin)this);
+        getCommand("enchants").setExecutor((CommandExecutor)new cmd());
+
     }
+
 
     @Override
     public void onDisable() {
@@ -185,4 +195,8 @@ public class TBCPlugin extends JavaPlugin {
             return "Message." + key;
         }
     }
+    public static TBCPlugin getInstance() {
+        return javaPlugin;
+    }
 }
+
