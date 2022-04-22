@@ -1,4 +1,4 @@
-package fun.tbcraft.play.enchanting;
+package fun.tbcraft.play.commands;
 
 import fun.tbcraft.play.enchanting.GUI.Page;
 import fun.tbcraft.play.enchanting.GUI.PlayerMenuUtility;
