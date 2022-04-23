@@ -4,6 +4,7 @@ import fun.tbcraft.play.commands.SimpleCommand;
 import fun.tbcraft.play.enchanting.MenuListener;
 import fun.tbcraft.play.commands.Command;
 import fun.tbcraft.play.exceptions.InvalidTBCException;
+import fun.tbcraft.play.polisher.ItemTierHandler;
 import fun.tbcraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import org.bukkit.command.CommandExecutor;
@@ -159,6 +160,9 @@ public class TBCPlugin extends JavaPlugin {
 
     public static Config getSettings() {
         return settings;
+    }
+    public static ItemTierHandler itemHandler(){
+        return ItemTierHandler.getHandler();
     }
     public static void debug(String word, int level){
         if (settings.exists("Debug.Level")){

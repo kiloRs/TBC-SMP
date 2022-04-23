@@ -226,12 +226,19 @@
         <dependency>
             <groupId>me.devtec.theapi</groupId>
             <artifactId>TheAPI</artifactId>
-            <version>9.8.0</version>
+            <version>9.9.0</version>
             <scope>system</scope>
             <systemPath>C:/Server/TheAPI.jar</systemPath>
         </dependency>
-        <!--GUIPlugin-->
 
+        <!--Mimic-->
+        <dependency>
+            <groupId>ru.endlesscode.mimic</groupId>
+            <artifactId>mimic-bukkit-api</artifactId>
+            <version>0.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--GUILib-->
         <dependency>
             <groupId>com.github.Jannyboy11.GuiLib</groupId>
             <artifactId>GuiLib-API</artifactId>
