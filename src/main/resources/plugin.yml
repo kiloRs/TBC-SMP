@@ -2,8 +2,8 @@ api-version: 1.18
 author: Kilo
 description: The core plugin for TheBetterChoice
 name: TBCCore
-version: 1.0.5.1
-main: fun.tbcraft.play.TBCPlugin
+version: 1.0.6.0
+main: com.thebetterchoiceminecraft.TBCPlugin
 website: https://www.tbcraft.fun
 softdepend:
   - AdvancedEnchantments
@@ -14,6 +14,8 @@ softdepend:
   - MythicEnchants
   - Spartan
   - SuperAuth
+  - Citizens
+  - Alchema
 depend:
   - TheAPI
 commands:
