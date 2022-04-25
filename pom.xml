@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fun.tbcraft.play</groupId>
+    <groupId>com.thebetterchoiceminecraft</groupId>
     <artifactId>TBC-SMP</artifactId>
     <version>1.0.5-SNAPSHOT</version>
 
@@ -24,16 +24,20 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>com.jeff_media.customblockdata.CustomBlockData</pattern>
-                            <shadedPattern>fun.tbcraft.play.CustomBlockData</shadedPattern>
+                            <pattern>com.github.stefvanschie.inventoryframework</pattern>
+                            <shadedPattern>com.thebetterchoiceminecraft.inventoryframework</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.jeff_media.customblockdata.CustomBlockData</pattern>
-                            <shadedPattern>fun.tbcraft.play.customblockdata.CustomBlockData</shadedPattern>
+                            <shadedPattern>com.thebetterchoiceminecraft.CustomBlockData</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.jeff_media.customblockdata.CustomBlockData</pattern>
+                            <shadedPattern>com.thebetterchoiceminecraft.customblockdata.CustomBlockData</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>xyz.theprogramsrc.supercoreapi</pattern>
-                            <shadedPattern>play.tbcraft.fun.supercoreapi.SuperCore</shadedPattern>
+                            <shadedPattern>com.thebetterchoiceminecraft.supercoreapi.SuperCore</shadedPattern>
                         </relocation>
                     </relocations>
                     <useBaseVersion>true</useBaseVersion>
@@ -46,13 +50,20 @@
                             <goal>shade</goal>
                         </goals>
                     </execution>
+
                 </executions>
             </plugin>
             <!--TODO Check IF -->
         </plugins>
     </build>
     <repositories>
+        <!--citizens-->
+        <repository>
+            <id>everything</id>
+            <url>http://repo.citizensnpcs.co/</url>
+        </repository>
         <!--Glow-->
+
         <repository>
             <id>inventive-repo</id>
             <url>https://repo.inventivetalent.org/content/groups/public/</url>
@@ -131,6 +142,13 @@
             <artifactId>purpur-api</artifactId>
             <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizensapi</artifactId>
+            <version>2.0.29-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <!--Special-->
         <dependency>
