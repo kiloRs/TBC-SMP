@@ -34,8 +34,8 @@ public class MessageUtil {
     public static void send(String message, Player player){
         player.sendRawMessage(TextUtils.color(message));
     }
-    public static MessageLoader getLoader(){
-        return new MessageLoader();
+    public static MessageLoader getLoader(){return
+         new MessageLoader();
     }
     public Message getForcedMessage(String key){
         return new Message(key);
@@ -57,15 +57,19 @@ public class MessageUtil {
         private final String idKey;
         private final boolean containsPlaceholders;
         private final String checkedString;
-        private TBCPlugin.Constants constant = null;
+        private MessageKeys constant = null;
 
         public Message(String key){
             this.idKey = key;
-            Optional<TBCPlugin.Constants> constant = EnumUtils.getIfPresent(TBCPlugin.Constants.class, this.idKey);
+            Optional<MessageKeys> messageKeys = EnumUtils.getIfPresent(MessageKeys.class, this.idKey);
             String foundString = data.exists(key) ? data.getString(key) : "";
             this.checkedString = Validate.notEmpty(foundString, "The string location provided is empty for " + idKey);
 
-            this.constant = constant.orElse(null);
+            this.constant = messageKeys.orElse(null);
+
+            if (constant == null){
+                throw new RuntimeException("Bad Message Key Constant");
+            }
             if (checkedString.isEmpty()){
                 TBCPlugin.log("- You are trying to parse a String with the key of " + key + " and it has no result!");
                 throw new RuntimeException("Invalid Key");
@@ -99,7 +103,7 @@ public class MessageUtil {
             return this.checkedString;
         }
 
-        public TBCPlugin.Constants getConstant() {
+        public MessageKeys getConstant() {
             return constant;
         }
     }
@@ -111,7 +115,6 @@ public class MessageUtil {
         }
         private MessageLoader(String coreWord){
             this.c = coreWord;
-            init();
         }
         public void init(){
             if (loadAll()){
@@ -122,7 +125,7 @@ public class MessageUtil {
         }
         private boolean loadAll(){
             int changes = 0;
-            for (TBCPlugin.Constants value : TBCPlugin.Constants.values()) {
+            for (MessageKeys value : MessageKeys.values()) {
                 ++changes;
                 if (TBCPlugin.getMainConfig().exists(c + "." + value.getPath()) && TBCPlugin.getMainConfig().get(c + "." + value.getPath()) != null){
                     TBCPlugin.log("SKipping Message: " + value.getPath());
@@ -134,9 +137,35 @@ public class MessageUtil {
             }
 
             if (TBCPlugin.getMainConfig().getKeys().contains(c) || TBCPlugin.getMainConfig().exists(c)){
-                return TBCPlugin.getMainConfig().getKeys(c).size() == TBCPlugin.Constants.values().length;
+                return TBCPlugin.getMainConfig().getKeys(c).size() == MessageKeys.values().length;
             }
-            return changes==TBCPlugin.Constants.values().length;
+            return changes== MessageKeys.values().length||MessageKeys.values().length+-1==changes;
+        }
+    }
+    public enum MessageKeys {
+        WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
+        private final String key;
+        private final MessageUtil.Message message;
+        MessageKeys(String key){
+            this.key = key;
+            this.message = TBCPlugin.getMessageUtil().getMessage(this.key);
+        }
+        private String getKey() {
+            return key;
+        }
+        public String getPath(){
+            return "Message." + key;
+        }
+
+        public String getFirst() {
+            return this.getPath() + "." + "First";
+        }
+        public String getPlayedBeforeMessage(){
+            return this.getPath() + ".Basic";
+        }
+
+        public MessageUtil.Message getMessage() {
+            return message;
         }
     }
 }

@@ -1,11 +1,12 @@
 package com.thebetterchoiceminecraft.play;
 
-import com.thebetterchoiceminecraft.utils.MessageUtil;
 import com.thebetterchoiceminecraft.play.commands.BaseCommand;
 import com.thebetterchoiceminecraft.play.commands.Command;
 import com.thebetterchoiceminecraft.play.commands.SimpleCommand;
 import com.thebetterchoiceminecraft.play.content.ItemTierHandler;
 import com.thebetterchoiceminecraft.play.enchanting.MenuListener;
+import com.thebetterchoiceminecraft.play.polisher.PolishDatabase;
+import com.thebetterchoiceminecraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
@@ -23,6 +24,9 @@ public class TBCPlugin extends JavaPlugin {
 
     public static Plugin getPlugin(){
         return javaPlugin;
+    }
+    public static PolishDatabase getPolishDatabase(){
+        return new PolishDatabase();
     }
 
     public static Config getMainConfig() {
@@ -105,6 +109,7 @@ public class TBCPlugin extends JavaPlugin {
             e.printStackTrace();
         }
 
+
         String tbcCore = "tbcCore";
         mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
         settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
@@ -122,6 +127,11 @@ public class TBCPlugin extends JavaPlugin {
         mainConfig.setIfAbsent("Waypoint.Main.Permission.Used","");
 
         mainConfig.save();
+
+
+        //Here
+        runMessageLoader().init();
+
 
         log("-Loading Hooked Plugins...");
         if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
@@ -177,30 +187,11 @@ public class TBCPlugin extends JavaPlugin {
     private static MessageUtil getMessageUtil(Config toUse){
         return new MessageUtil(toUse);
     }
-
-
-    public enum Constants{
-        WELCOME("Welcome"),LEAVE("Leave"),KICK("Kick"),BAN("Ban"),ENTER_COMBAT("Combat.Enter"),LEAVE_COMBAT("Combat.Leave"),BOSS_DEFEAT("Boss.Defeat"),BOSS_SUCCESS("Boss.Success"),ERROR_LIGHT("Error.Light"),ERROR_HEAVY("Error.Heavy");
-        private final String key;
-        private final MessageUtil.Message message;
-        Constants(String key){
-            this.key = key;
-            this.message = getMessageUtil().getMessage(this.key);
-        }
-        private String getKey() {
-            return key;
-        }
-        public String getPath(){
-            return "Message." + key;
-        }
-
-        public String getFirst() {
-            return this.getPath() + "." + "First";
-        }
-        public String getPlayedBeforeMessage(){
-            return this.getPath() + ".Basic";
-        }
+    private static MessageUtil.MessageLoader runMessageLoader(){
+        return new MessageUtil.MessageLoader();
     }
+
+
     public static TBCPlugin getInstance() {
         return javaPlugin;
     }

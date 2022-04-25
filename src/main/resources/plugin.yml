@@ -18,10 +18,4 @@ softdepend:
   - Alchema
 depend:
   - TheAPI
-commands:
-  tbc:
-    description: "Base Command"
-    aliases: "TheBetterChoice"
-    permission: ""
-    permission-message: "You have no perms for this!"
-    usage: "TBC <Arguments>"
+commands: []

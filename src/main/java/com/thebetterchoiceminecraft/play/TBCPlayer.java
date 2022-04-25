@@ -5,6 +5,7 @@ import com.thebetterchoiceminecraft.utils.TBCConfigFile;
 import de.jeff_media.jefflib.data.ShadowPlayer;
 import io.lumine.mythic.lib.api.player.MMOPlayerData;
 import io.lumine.mythic.lib.api.util.EnumUtils;
+import lombok.Getter;
 import me.devtec.shared.API;
 import me.devtec.shared.dataholder.Config;
 import net.Indyuce.mmocore.api.player.profess.PlayerClass;
@@ -20,7 +21,7 @@ import java.util.UUID;
  * Instance of a Player on the TBC Server. Easy to control from one class.
  */
 public class TBCPlayer {
-    @lombok.Getter
+    @Getter
     private final Config user;
     private final PlayerResourcePackStatusEvent.@Nullable Status resourcePackStatus;
     private final Player storedPlayer;
@@ -32,10 +33,6 @@ public class TBCPlayer {
 
 
     //Special Ones
-
-    private final double stelliumMultiplier = 1.0;
-    private final int tokensRemaining = 0;
-    private final int tokensOffered = 0;
     private final TBCConfigFile tbcConfigFile;
 
 
