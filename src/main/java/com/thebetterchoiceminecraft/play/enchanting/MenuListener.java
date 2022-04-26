@@ -47,7 +47,7 @@ public class MenuListener implements Listener {
         if (holder instanceof Menu) {
             Menu menu = (Menu)holder;
             if (menu.getInventory().getItem(19) != null)
-                e.getPlayer().getInventory().addItem(new ItemStack[] { menu.getInventory().getItem(19) });
+                e.getPlayer().getInventory().addItem(menu.getInventory().getItem(19));
             menu.flushRunningTasks();
         }
     }

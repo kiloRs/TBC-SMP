@@ -1,17 +1,13 @@
 package com.thebetterchoiceminecraft.play;
 
 import com.thebetterchoiceminecraft.play.commands.Command;
-import com.thebetterchoiceminecraft.play.commands.SimpleCommand;
 import com.thebetterchoiceminecraft.play.content.ItemTierHandler;
 import com.thebetterchoiceminecraft.play.enchanting.MenuListener;
 import com.thebetterchoiceminecraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class TBCPlugin extends JavaPlugin {
@@ -37,44 +33,9 @@ public class TBCPlugin extends JavaPlugin {
         mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
         settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
 
-        loadSettings(!settings.getKeys().isEmpty(),settings);
-
-
-        mainConfig.setIfAbsent("Waypoint.Main.Enabled",false);
-        mainConfig.setIfAbsent("Waypoint.Main.Permission.Required",false);
-        mainConfig.setIfAbsent("Waypoint.Main.Permission.Used","");
-
-        mainConfig.save();
-
-        //TODO Finish COnfigurations
-        log("-Loading Hooked Plugins...");
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
-            log("Located MythicMobs");
-        }
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MMOCore")){
-            log("Located MMOCore");
-        }
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("WorldGuard")){
-            log("Located WorldGuard!");
-        }
-        log("-Hooked Plugins Complete");
-
-        var c = new SimpleCommand("TBC");
-
-        if (c.isRegistered()){
-            log("Successful Registered Simple Command");
-        }
         //Load Events Register Listeners
     }
-    private static void loadSettings(boolean defaulting, Config whichConfig){
-        if (defaulting){
-            whichConfig.setIfAbsent("Debug.Enabled",true, Arrays.stream(new String[]{"#Hooks up the debug system if enabled."}).toList());
-            whichConfig.reload();
-        }
-        else {
-            whichConfig.reload();
-        }
-    }
+
 
     public static void log(String i){
         if (i.startsWith("-")){
@@ -99,31 +60,10 @@ public class TBCPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         javaPlugin = this;
-        try {
-            MessageUtil.getLoader();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         String tbcCore = "tbcCore";
         mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
         settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
-
-
-        if (settings.getKeys().isEmpty()){
-            debug("No Settings Found...Loading New Settings - AimCore");
-        }
-        loadSettings(!settings.getKeys().isEmpty(),settings);
-        debug("Successful Debug on Configs");
-
-
-        mainConfig.setIfAbsent("Waypoint.Main.Enabled",false);
-        mainConfig.setIfAbsent("Waypoint.Main.Permission.Required",false);
-        mainConfig.setIfAbsent("Waypoint.Main.Permission.Used","");
-
-        mainConfig.save();
-
 
         //Here
         runMessageLoader().init();
@@ -143,9 +83,10 @@ public class TBCPlugin extends JavaPlugin {
 
 
 
+        //TODO - Finish Configurations / OnEnable
 
-        getServer().getPluginManager().registerEvents((Listener)new MenuListener(this), (Plugin)this);
-        getCommand("enchants").setExecutor((CommandExecutor)new Command());
+        getServer().getPluginManager().registerEvents(new MenuListener(this), this);
+        getCommand("enchants").setExecutor(new Command());
 
     }
 

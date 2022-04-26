@@ -3,17 +3,12 @@ package com.thebetterchoiceminecraft.utils;
 import com.thebetterchoiceminecraft.play.TBCPlayer;
 import com.thebetterchoiceminecraft.play.TBCPlugin;
 import net.Indyuce.mmocore.MMOCore;
-import net.Indyuce.mmocore.guild.provided.Guild;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -25,19 +20,8 @@ public class TBCConfigFile {
         private final String name;
         private final FileConfiguration config;
 
-        public TBCConfigFile(Player player) {
-            this(player.getUniqueId());
-        }
-
         public TBCConfigFile(TBCPlayer p){
             this(TBCPlugin.getPlugin(),"/users",p.getStoredPlayer().getName());
-        }
-        public TBCConfigFile(UUID uuid) {
-            this(TBCPlugin.getPlugin(), "/userdata", uuid.toString());
-        }
-
-        public TBCConfigFile(Guild guild) {
-            this(TBCPlugin.getPlugin(), "/guilds", guild.getId());
         }
 
         public TBCConfigFile(String name) {
@@ -60,15 +44,6 @@ public class TBCConfigFile {
             return config;
         }
 
-        public ConfigurationSection getSection(String i){
-            return config.isConfigurationSection(i)?config.getConfigurationSection(i):null;
-        }
-        public ConfigurationSection getOrNewSection(String id){
-            return config.isConfigurationSection(id)?getSection(id):config.createSection(id);
-        }
-        public ConfigurationSection getOrNewSection(String id, Map<String,Object> dataSerialized){
-            return config.isConfigurationSection(id)?getOrNewSection(id):config.createSection(id,dataSerialized);
-        }
         public void save() {
             try {
                 config.save(file);
@@ -82,7 +57,4 @@ public class TBCConfigFile {
                 if (!file.delete())
                     TBCPlugin.getPlugin().getLogger().log(Level.SEVERE, "Could not delete " + name + ".yml.");
         }
-        public boolean rename(String newName, Plugin plugin){
-           return file.renameTo(new File(plugin.getDataFolder() + "/" + newName + ".yml"));
-    }
 }

@@ -27,7 +27,7 @@ public class JoinListener implements BaseListener {
                     e.printStackTrace();
                 }
 
-                TBCPlugin.log("Unregistered " + JoinListener.this.toString() + " after " + timeZone);
+                TBCPlugin.log("Unregistered " + JoinListener.this + " after " + timeZone);
             }
         });
     }

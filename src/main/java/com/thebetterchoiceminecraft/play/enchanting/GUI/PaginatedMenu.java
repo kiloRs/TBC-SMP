@@ -19,14 +19,14 @@ public abstract class PaginatedMenu extends Menu {
     }
 
     public void addMenuWithBorder() {
-        this.inventory.setItem(49, makeItem(Material.BARRIER, ChatColor.DARK_RED + "Close", new String[0]));
-        this.inventory.setItem(28, makeItem(Material.ENCHANTING_TABLE, ChatColor.GRAY + "Enchant", new String[] { ChatColor.GRAY + "Accepted items:", ChatColor.GRAY + "Sword, Pickaxe, Axe, Shovel, Hoe", ChatColor.GRAY + "Bow, Crossbow", ChatColor.GRAY + "Helmet, Chestplate, Leggings, Boots", ChatColor.GRAY + "Elytra, Trident, Fishing rod, Shield", ChatColor.GRAY + "", ChatColor.GRAY + "Coming soon - Books." }));
+        this.inventory.setItem(49, makeItem(Material.BARRIER, ChatColor.DARK_RED + "Close"));
+        this.inventory.setItem(28, makeItem(Material.ENCHANTING_TABLE, ChatColor.GRAY + "Enchant", ChatColor.GRAY + "Accepted items:", ChatColor.GRAY + "Sword, Pickaxe, Axe, Shovel, Hoe", ChatColor.GRAY + "Bow, Crossbow", ChatColor.GRAY + "Helmet, Chestplate, Leggings, Boots", ChatColor.GRAY + "Elytra, Trident, Fishing rod, Shield", ChatColor.GRAY + "", ChatColor.GRAY + "Coming soon - Books."));
         int i;
         for (i = 0; i < 10; i++) {
             if (this.inventory.getItem(i) == null)
                 this.inventory.setItem(i, this.FILLER_GLASS);
         }
-        this.inventory.setItem(17, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Up", new String[0]));
+        this.inventory.setItem(17, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Up"));
         this.inventory.setItem(10, this.FILLER_GLASS);
         this.inventory.setItem(11, this.FILLER_GLASS);
         this.inventory.setItem(20, this.FILLER_GLASS);
@@ -41,7 +41,7 @@ public abstract class PaginatedMenu extends Menu {
         this.inventory.setItem(41, this.FILLER_GLASS);
         this.inventory.setItem(42, this.FILLER_GLASS);
         this.inventory.setItem(43, this.FILLER_GLASS);
-        this.inventory.setItem(35, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Down", new String[0]));
+        this.inventory.setItem(35, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Down"));
         this.inventory.setItem(36, this.FILLER_GLASS);
         this.inventory.setItem(48, this.FILLER_GLASS);
         this.inventory.setItem(50, this.FILLER_GLASS);

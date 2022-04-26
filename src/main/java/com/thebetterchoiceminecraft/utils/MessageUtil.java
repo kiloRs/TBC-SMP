@@ -34,9 +34,6 @@ public class MessageUtil {
     public static void send(String message, Player player){
         player.sendRawMessage(TextUtils.color(message));
     }
-    public static MessageLoader getLoader(){return
-         new MessageLoader();
-    }
     public Message getForcedMessage(String key){
         return new Message(key);
     }
