@@ -21,7 +21,7 @@ public abstract class Menu implements InventoryHolder {
 
     protected Inventory inventory;
 
-    protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ", new String[0]);
+    protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ");
 
     protected List<BukkitTask> runningTasks = new ArrayList<>();
 

@@ -1,11 +1,9 @@
 package com.thebetterchoiceminecraft.play;
 
-import com.thebetterchoiceminecraft.play.commands.BaseCommand;
 import com.thebetterchoiceminecraft.play.commands.Command;
 import com.thebetterchoiceminecraft.play.commands.SimpleCommand;
 import com.thebetterchoiceminecraft.play.content.ItemTierHandler;
 import com.thebetterchoiceminecraft.play.enchanting.MenuListener;
-import com.thebetterchoiceminecraft.play.polisher.PolishDatabase;
 import com.thebetterchoiceminecraft.utils.MessageUtil;
 import me.devtec.shared.dataholder.Config;
 import org.bukkit.command.CommandExecutor;
@@ -25,9 +23,7 @@ public class TBCPlugin extends JavaPlugin {
     public static Plugin getPlugin(){
         return javaPlugin;
     }
-    public static PolishDatabase getPolishDatabase(){
-        return new PolishDatabase();
-    }
+
 
     public static Config getMainConfig() {
         return mainConfig;
@@ -145,10 +141,6 @@ public class TBCPlugin extends JavaPlugin {
         }
         log("-Hooked Plugins Complete");
 
-        BaseCommand command = new SimpleCommand("TBC");
-        if (((SimpleCommand) command).isRegistered()){
-            log("Successful Registered Simple Command");
-        }
 
 
 

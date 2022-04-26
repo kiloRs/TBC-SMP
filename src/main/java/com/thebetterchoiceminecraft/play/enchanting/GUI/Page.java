@@ -1,8 +1,6 @@
 package com.thebetterchoiceminecraft.play.enchanting.GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,6 +9,9 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Page extends PaginatedMenu {
     private List<ItemStack> placeHolderBooks;
@@ -23,7 +24,7 @@ public class Page extends PaginatedMenu {
         super(playerMenuUtility);
         List<ItemStack> placeHolderBooks = new ArrayList<>();
         for (int i = 0; i < 15; i++)
-            placeHolderBooks.add(makeItem(Material.RED_STAINED_GLASS_PANE, " ", new String[0]));
+            placeHolderBooks.add(makeItem(Material.RED_STAINED_GLASS_PANE, " "));
         this.placeHolderBooks = new ArrayList<>(placeHolderBooks);
         this.filteredBooks = new ArrayList<>(placeHolderBooks);
     }
@@ -45,12 +46,15 @@ public class Page extends PaginatedMenu {
         if (slot == 19 && (e.getAction().equals(InventoryAction.PICKUP_ALL) || e.getAction().equals(InventoryAction.PICKUP_ONE))) {
             List<ItemStack> placeHolderBooks = new ArrayList<>();
             for (int i = 0; i < 15; i++)
-                placeHolderBooks.add(makeItem(Material.RED_STAINED_GLASS_PANE, " ", new String[0]));
+                placeHolderBooks.add(makeItem(Material.RED_STAINED_GLASS_PANE, " "));
             this.placeHolderBooks = new ArrayList<>(placeHolderBooks);
             this.filteredBooks = new ArrayList<>(placeHolderBooks);
             this.page = 0;
             setMenuItems();
         }
+        List<ItemStack> temp = new ArrayList<>();
+        List<ItemStack> notNull = Validate.notNull(temp, "");
+
         if (slot == 19 && (e.getAction().equals(InventoryAction.PLACE_ALL) || e.getAction().equals(InventoryAction.PLACE_ONE)))
             if ((e.getCursor().getType().equals(Material.WOODEN_SWORD) || e
                     .getCursor().getType().equals(Material.STONE_SWORD) || e
@@ -59,26 +63,20 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_SWORD) || e
                     .getCursor().getType().equals(Material.NETHERITE_SWORD)) && p.hasPermission("tbcenchant.enchants.sword")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getSwordEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getSwordEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.BOW) && p.hasPermission("tbcenchant.enchants.bow")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getBowEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getBowEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.CROSSBOW) && p.hasPermission("tbcenchant.enchants.crossbow")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getCrossbowEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getCrossbowEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.WOODEN_AXE) || e
@@ -88,10 +86,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_AXE) || e
                     .getCursor().getType().equals(Material.NETHERITE_AXE)) && p.hasPermission("tbcenchant.enchants.axe")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getAxeEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getAxeEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.WOODEN_PICKAXE) || e
@@ -101,10 +97,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_PICKAXE) || e
                     .getCursor().getType().equals(Material.NETHERITE_PICKAXE)) && p.hasPermission("tbcenchant.enchants.pickaxe")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getPickaxeEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getPickaxeEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.WOODEN_HOE) || e
@@ -114,10 +108,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_HOE) || (e
                     .getCursor().getType().equals(Material.NETHERITE_HOE) && p.hasPermission("tbcenchant.enchants.hoe"))) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getHoeEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getHoeEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.WOODEN_SHOVEL) || e
@@ -127,50 +119,38 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_SHOVEL) || e
                     .getCursor().getType().equals(Material.NETHERITE_SHOVEL)) && p.hasPermission("tbcenchant.enchants.shovel")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getShovelEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getShovelEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.TRIDENT) && p.hasPermission("tbcenchant.enchants.tident")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getTridentEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getTridentEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.FISHING_ROD) && p.hasPermission("tbcenchant.enchants.fishingrod")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getFishingRodEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getFishingRodEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.SHEARS) && p.hasPermission("tbcenchant.enchants.shears")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getShearsEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getShearsEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.SHIELD) && p.hasPermission("tbcenchant.enchants.shield")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getShieldEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getShieldEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if (e.getCursor().getType().equals(Material.ELYTRA) && p.hasPermission("tbcenchant.enchants.elytra")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getElytraEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getElytraEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.LEATHER_HELMET) || e
@@ -180,10 +160,9 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_HELMET) || e
                     .getCursor().getType().equals(Material.NETHERITE_HELMET)) && p.hasPermission("tbcenchant.enchants.helmet")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getHelmetEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+
+                getHelmetEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.LEATHER_CHESTPLATE) || e
@@ -193,10 +172,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_CHESTPLATE) || e
                     .getCursor().getType().equals(Material.NETHERITE_CHESTPLATE)) && p.hasPermission("tbcenchant.enchants.chestplate")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getChestplateEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getChestplateEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.LEATHER_LEGGINGS) || e
@@ -206,10 +183,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_LEGGINGS) || e
                     .getCursor().getType().equals(Material.NETHERITE_LEGGINGS)) && p.hasPermission("tbcenchant.enchants.leggings")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getLeggingsEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getLeggingsEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else if ((e.getCursor().getType().equals(Material.LEATHER_BOOTS) || e
@@ -219,10 +194,8 @@ public class Page extends PaginatedMenu {
                     .getCursor().getType().equals(Material.DIAMOND_BOOTS) || e
                     .getCursor().getType().equals(Material.NETHERITE_BOOTS)) && p.hasPermission("tbcenchant.enchants.leggings")) {
                 this.currentItem = e.getCursor().clone();
-                List<ItemStack> temp = new ArrayList<>();
-                Objects.requireNonNull(temp);
-                getBootsEnchantmentBooksList().forEach(temp::addAll);
-                this.filteredBooks = new ArrayList<>(temp);
+                getBootsEnchantmentBooksList().forEach(notNull::addAll);
+                this.filteredBooks = new ArrayList<>(notNull);
                 clearPlaceholders();
                 setMenuItems();
             } else {
@@ -232,10 +205,8 @@ public class Page extends PaginatedMenu {
         if (e.getCurrentItem() == null)
             return;
         switch (e.getCurrentItem().getType()) {
-            case BARRIER:
-                p.closeInventory();
-                break;
-            case DARK_OAK_BUTTON:
+            case BARRIER -> p.closeInventory();
+            case DARK_OAK_BUTTON -> {
                 if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Up")) {
                     if (this.page == 0) {
                         p.sendMessage(ChatColor.GRAY + "You are already on the first page.");
@@ -263,87 +234,87 @@ public class Page extends PaginatedMenu {
                     }
                     p.sendMessage(ChatColor.GRAY + "You are on the last page.");
                 }
-                break;
-            case ENCHANTED_BOOK:
+            }
+            case ENCHANTED_BOOK -> {
                 newItem = this.currentItem.clone();
                 meta = newItem.getItemMeta();
                 if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DAMAGE_ALL)) {
-                        meta.addEnchant(Enchantment.DAMAGE_ALL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DAMAGE_ARTHROPODS)) {
-                        meta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DAMAGE_UNDEAD)) {
-                        meta.addEnchant(Enchantment.DAMAGE_UNDEAD, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.VANISHING_CURSE)) {
-                        meta.addEnchant(Enchantment.VANISHING_CURSE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.VANISHING_CURSE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.FIRE_ASPECT)) {
-                        meta.addEnchant(Enchantment.FIRE_ASPECT, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.FIRE_ASPECT), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.KNOCKBACK)) {
-                        meta.addEnchant(Enchantment.KNOCKBACK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.KNOCKBACK), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
-                        meta.addEnchant(Enchantment.LOOT_BONUS_MOBS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_MOBS), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.MENDING)) {
-                        meta.addEnchant(Enchantment.MENDING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.MENDING), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.SWEEPING_EDGE)) {
-                        meta.addEnchant(Enchantment.SWEEPING_EDGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.SWEEPING_EDGE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DURABILITY)) {
-                        meta.addEnchant(Enchantment.DURABILITY, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DURABILITY), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.CHANNELING)) {
-                        meta.addEnchant(Enchantment.CHANNELING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.CHANNELING), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.IMPALING)) {
-                        meta.addEnchant(Enchantment.IMPALING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.IMPALING), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LOYALTY)) {
-                        meta.addEnchant(Enchantment.LOYALTY, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LOYALTY), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.RIPTIDE)) {
-                        meta.addEnchant(Enchantment.RIPTIDE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.RIPTIDE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.MULTISHOT)) {
-                        meta.addEnchant(Enchantment.MULTISHOT, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.MULTISHOT), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PIERCING)) {
-                        meta.addEnchant(Enchantment.PIERCING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PIERCING), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.QUICK_CHARGE)) {
-                        meta.addEnchant(Enchantment.QUICK_CHARGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.QUICK_CHARGE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_FIRE)) {
-                        meta.addEnchant(Enchantment.ARROW_FIRE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_FIRE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_INFINITE)) {
-                        meta.addEnchant(Enchantment.ARROW_INFINITE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_INFINITE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_DAMAGE)) {
-                        meta.addEnchant(Enchantment.ARROW_DAMAGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_KNOCKBACK)) {
-                        meta.addEnchant(Enchantment.ARROW_KNOCKBACK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_KNOCKBACK), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.BINDING_CURSE)) {
-                        meta.addEnchant(Enchantment.BINDING_CURSE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.BINDING_CURSE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DIG_SPEED)) {
-                        meta.addEnchant(Enchantment.DIG_SPEED, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DIG_SPEED), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.SILK_TOUCH)) {
-                        meta.addEnchant(Enchantment.SILK_TOUCH, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.OXYGEN)) {
-                        meta.addEnchant(Enchantment.OXYGEN, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.OXYGEN), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.WATER_WORKER)) {
-                        meta.addEnchant(Enchantment.WATER_WORKER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.WATER_WORKER), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_EXPLOSIONS)) {
-                        meta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_FIRE)) {
-                        meta.addEnchant(Enchantment.PROTECTION_FIRE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_FIRE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_FALL)) {
-                        meta.addEnchant(Enchantment.PROTECTION_FALL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_FALL), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
-                        meta.addEnchant(Enchantment.PROTECTION_PROJECTILE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_PROJECTILE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_ENVIRONMENTAL)) {
-                        meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.THORNS)) {
-                        meta.addEnchant(Enchantment.THORNS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.THORNS), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DEPTH_STRIDER)) {
-                        meta.addEnchant(Enchantment.DEPTH_STRIDER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DEPTH_STRIDER), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LURE)) {
-                        meta.addEnchant(Enchantment.LURE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LURE), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LUCK)) {
-                        meta.addEnchant(Enchantment.LUCK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LUCK), true);
-                    } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.FROST_WALKER)) {
-                        meta.addEnchant(Enchantment.FROST_WALKER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.FROST_WALKER), true);
-                    }
+                    meta.addEnchant(Enchantment.DAMAGE_ALL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ALL), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DAMAGE_ARTHROPODS)) {
+                    meta.addEnchant(Enchantment.DAMAGE_ARTHROPODS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_ARTHROPODS), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DAMAGE_UNDEAD)) {
+                    meta.addEnchant(Enchantment.DAMAGE_UNDEAD, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DAMAGE_UNDEAD), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.VANISHING_CURSE)) {
+                    meta.addEnchant(Enchantment.VANISHING_CURSE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.VANISHING_CURSE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.FIRE_ASPECT)) {
+                    meta.addEnchant(Enchantment.FIRE_ASPECT, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.FIRE_ASPECT), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.KNOCKBACK)) {
+                    meta.addEnchant(Enchantment.KNOCKBACK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.KNOCKBACK), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LOOT_BONUS_MOBS)) {
+                    meta.addEnchant(Enchantment.LOOT_BONUS_MOBS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_MOBS), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.MENDING)) {
+                    meta.addEnchant(Enchantment.MENDING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.MENDING), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.SWEEPING_EDGE)) {
+                    meta.addEnchant(Enchantment.SWEEPING_EDGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.SWEEPING_EDGE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DURABILITY)) {
+                    meta.addEnchant(Enchantment.DURABILITY, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DURABILITY), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.CHANNELING)) {
+                    meta.addEnchant(Enchantment.CHANNELING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.CHANNELING), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.IMPALING)) {
+                    meta.addEnchant(Enchantment.IMPALING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.IMPALING), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LOYALTY)) {
+                    meta.addEnchant(Enchantment.LOYALTY, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LOYALTY), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.RIPTIDE)) {
+                    meta.addEnchant(Enchantment.RIPTIDE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.RIPTIDE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.MULTISHOT)) {
+                    meta.addEnchant(Enchantment.MULTISHOT, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.MULTISHOT), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PIERCING)) {
+                    meta.addEnchant(Enchantment.PIERCING, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PIERCING), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.QUICK_CHARGE)) {
+                    meta.addEnchant(Enchantment.QUICK_CHARGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.QUICK_CHARGE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_FIRE)) {
+                    meta.addEnchant(Enchantment.ARROW_FIRE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_FIRE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_INFINITE)) {
+                    meta.addEnchant(Enchantment.ARROW_INFINITE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_INFINITE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_DAMAGE)) {
+                    meta.addEnchant(Enchantment.ARROW_DAMAGE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.ARROW_KNOCKBACK)) {
+                    meta.addEnchant(Enchantment.ARROW_KNOCKBACK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.ARROW_KNOCKBACK), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.BINDING_CURSE)) {
+                    meta.addEnchant(Enchantment.BINDING_CURSE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.BINDING_CURSE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DIG_SPEED)) {
+                    meta.addEnchant(Enchantment.DIG_SPEED, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DIG_SPEED), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.SILK_TOUCH)) {
+                    meta.addEnchant(Enchantment.SILK_TOUCH, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.SILK_TOUCH), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.OXYGEN)) {
+                    meta.addEnchant(Enchantment.OXYGEN, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.OXYGEN), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.WATER_WORKER)) {
+                    meta.addEnchant(Enchantment.WATER_WORKER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.WATER_WORKER), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    meta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_EXPLOSIONS), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_FIRE)) {
+                    meta.addEnchant(Enchantment.PROTECTION_FIRE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_FIRE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_FALL)) {
+                    meta.addEnchant(Enchantment.PROTECTION_FALL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_FALL), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_PROJECTILE)) {
+                    meta.addEnchant(Enchantment.PROTECTION_PROJECTILE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_PROJECTILE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.PROTECTION_ENVIRONMENTAL), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.THORNS)) {
+                    meta.addEnchant(Enchantment.THORNS, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.THORNS), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.DEPTH_STRIDER)) {
+                    meta.addEnchant(Enchantment.DEPTH_STRIDER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.DEPTH_STRIDER), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LURE)) {
+                    meta.addEnchant(Enchantment.LURE, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LURE), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.LUCK)) {
+                    meta.addEnchant(Enchantment.LUCK, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.LUCK), true);
+                } else if (e.getCurrentItem().getItemMeta().getEnchants().containsKey(Enchantment.FROST_WALKER)) {
+                    meta.addEnchant(Enchantment.FROST_WALKER, e.getCurrentItem().getItemMeta().getEnchantLevel(Enchantment.FROST_WALKER), true);
+                }
                 newItem.setItemMeta(meta);
                 this.currentItem = newItem.clone();
                 this.inventory.setItem(19, this.currentItem);
-                break;
+            }
         }
     }
 
