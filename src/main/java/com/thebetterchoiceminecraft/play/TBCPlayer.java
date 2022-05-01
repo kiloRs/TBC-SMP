@@ -1,6 +1,6 @@
 package com.thebetterchoiceminecraft.play;
 
-import com.thebetterchoiceminecraft.play.economy.ClassType;
+import com.thebetterchoiceminecraft.play.utils.ClassType;
 import com.thebetterchoiceminecraft.utils.TBCConfigFile;
 import de.jeff_media.jefflib.data.ShadowPlayer;
 import io.lumine.mythic.lib.api.player.MMOPlayerData;
@@ -66,7 +66,9 @@ public class TBCPlayer {
         user = API.getUser(storedPlayer.getUniqueId());
 
 
-    }
+
+        }
+
 
 
     public TBCConfigFile getUserSavedData() {

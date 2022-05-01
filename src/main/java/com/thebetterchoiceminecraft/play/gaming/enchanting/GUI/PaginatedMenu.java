@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.enchanting.GUI;
+package com.thebetterchoiceminecraft.play.gaming.enchanting.GUI;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

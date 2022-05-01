@@ -2,40 +2,24 @@ package com.thebetterchoiceminecraft.utils;
 
 import com.thebetterchoiceminecraft.play.TBCPlayer;
 import com.thebetterchoiceminecraft.play.TBCPlugin;
-import io.lumine.mythic.utils.promise.ThreadContext;
-import io.lumine.mythic.utils.tasks.builder.TaskBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinListener implements BaseListener {
-    public JoinListener() {
+    private HandlerList handlers = null;
 
-    }
-
-    @Override
-    public void unregisterAfter(long timeZone, boolean offForGood) {
-        TaskBuilder.newBuilder().on(ThreadContext.SYNC).after(timeZone).run(() -> new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    HandlerList.unregisterAll(JoinListener.this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                TBCPlugin.log("Unregistered " + JoinListener.this + " after " + timeZone);
-            }
-        });
-    }
 
     @Override
     public boolean unregister() {
+        if (handlers == null){
+            handlers = new HandlerList();
+        }
         try {
-            HandlerList.unregisterAll(this);
+            handlers.unregister(this);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,38 +29,37 @@ public class JoinListener implements BaseListener {
 
     @Override
     public void register() {
-        Bukkit.getPluginManager().registerEvents(this,TBCPlugin.getPlugin());
+        Bukkit.getPluginManager().registerEvents(this, TBCPlugin.getPlugin());
     }
-
     @EventHandler
-    public void onJoinServer(PlayerJoinEvent e){
+    public void onLeave(PlayerQuitEvent e){
         Player player = e.getPlayer();
-        if (TBCPlugin.getPlugin().getConfig().isConfigurationSection(MessageUtil.MessageKeys.WELCOME.getPath())){
-            TBCPlugin.log("Welcome Message Found for " + player.getName());
-        }
-        //TODO Process Messages Better
-        if (!TBCPlugin.getMainConfig().exists(MessageUtil.MessageKeys.WELCOME.getPath())){
-            TBCPlugin.getMainConfig().set(MessageUtil.MessageKeys.WELCOME.getFirst(), "&aThank you for joining &lTheBetterChoice!");
-            TBCPlugin.getMainConfig().set(MessageUtil.MessageKeys.WELCOME.getPlayedBeforeMessage(), "&aWelcome back to TBC!");
-            TBCPlugin.getMainConfig().save();
-        }
-        if (!player.hasPlayedBefore()){
-            MessageUtil.send(MessageUtil.MessageKeys.WELCOME.getFirst(), player);
-            TBCConfigFile data = TBCPlayer.get(player).getUserSavedData();
+        PlayerQuitEvent.QuitReason leaveResaon = e.getReason();
 
-            if (!data.exists()) {
-                data.save();
-            }
-            else {
-                if (!data.getConfig().isConfigurationSection("Last")) {
-                    data.getConfig().set("Last.Login",System.currentTimeMillis());
-                    data.save();
-                }
-            }
+        if (leaveResaon == PlayerQuitEvent.QuitReason.KICKED){
+            TBCPlugin.log("Kicked Player Found: " + player.getName());
         }
         else {
-            MessageUtil.send(MessageUtil.MessageKeys.WELCOME.getPlayedBeforeMessage(), player);
+            if (leaveResaon == PlayerQuitEvent.QuitReason.ERRONEOUS_STATE){
+                TBCPlugin.log("Error Disconnect for " + player.getName());
+            }
         }
+    }
+    @EventHandler
+    public void onJ(PlayerJoinEvent e){
+        Player player = e.getPlayer();
+        handlers = e.getHandlers();
+
+        TBCPlayer i = TBCPlayer.get(player);
+        TBCConfigFile z = i.getUserSavedData();
+
+        if (!z.exists()){
+            z.create();
+        }
+
+        String rank = z.getConfig().contains("Rank") ? z.getConfig().getString("Rank") : "";
+        String clazz = z.getConfig().contains("Class") ? z.getConfig().getString("Class") : "";
+
 
     }
 }

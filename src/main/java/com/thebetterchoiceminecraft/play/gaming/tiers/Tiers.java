@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.content;
+package com.thebetterchoiceminecraft.play.gaming.tiers;
 
 import com.thebetterchoiceminecraft.play.TBCPlugin;
 import io.lumine.mythic.lib.api.item.NBTItem;
@@ -29,12 +29,14 @@ public enum Tiers {
     Tiers(int b, String colorString, String id) {
         this.dataHandler = new TierDataHandler(this, b, colorString, id);
 
-        try {
-            createDefaultMMOItemsTier(false);
-        } catch (Exception e) {
-            e.printStackTrace();
+        ConfigFile tiers = new ConfigFile("item-tiers");
+        if (tiers.exists()){
+                createDefaultMMOItemsTier((!tiers.getConfig().getKeys(false).contains(id)));
+
+                //Creates if not found in MMOItems/ folder!
         }
-    }
+        }
+
 
     public TierDataHandler getDataHandler() {
         return dataHandler;
@@ -42,9 +44,6 @@ public enum Tiers {
 
     public boolean hasMMOTier(){
         return MMOItems.plugin.getTiers().has(this.dataHandler.getName());
-    }
-    public void createDefaultMMOItemsTier(){
-        this.createDefaultMMOItemsTier(true);
     }
     private void createDefaultMMOItemsTier(boolean force){
         if (!hasMMOTier()){
@@ -57,7 +56,7 @@ public enum Tiers {
                 }
                 FileConfiguration config = itemTiersFile.getConfig();
 
-                if (!config.contains(id)){
+                if (!config.contains(id) || force){
                     config.set(id + ".name",id);
                     if (baseID - 1 >= 0) {
                         config.set(id + ".parent", ItemTierHandler.getHandler().getTier(baseID - 1).dataHandler.getName());
@@ -100,6 +99,14 @@ public enum Tiers {
         }
         MMOItem mmoItem = Validate.notNull(MMOItems.plugin.getMMOItem(MMOItems.getType(nbt), MMOItems.getID(nbt)),"Item Not Found for Tier Finder");
         return MMOItems.plugin.getTiers().findTier(mmoItem);
+    }
+    private void loadAllTiers(){
+        for (Tiers eachTier : Tiers.values()) {
+            createDefaultMMOItemsTier(TBCPlugin.getTierConfig().exists()&&!TBCPlugin.getTierConfig().getConfig().contains(eachTier.dataHandler.getName() + "." + "name"));
+
+
+            //Loading tier files....
+        }
     }
 
 

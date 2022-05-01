@@ -36,6 +36,14 @@ public class TBCConfigFile {
             config = YamlConfiguration.loadConfiguration(file = new File(plugin.getDataFolder() + folder, (this.name = name) + ".yml"));
         }
 
+        @SuppressWarnings("ResultOfMethodCallIgnored")
+        void create(){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         public boolean exists() {
             return file.exists();
         }

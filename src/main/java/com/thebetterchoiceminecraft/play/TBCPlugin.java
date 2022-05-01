@@ -1,28 +1,45 @@
 package com.thebetterchoiceminecraft.play;
 
 import com.thebetterchoiceminecraft.play.commands.Command;
-import com.thebetterchoiceminecraft.play.content.ItemTierHandler;
-import com.thebetterchoiceminecraft.play.enchanting.MenuListener;
-import com.thebetterchoiceminecraft.utils.MessageUtil;
-import me.devtec.shared.dataholder.Config;
+import com.thebetterchoiceminecraft.play.commands.CoreCommand;
+import com.thebetterchoiceminecraft.play.commands.TBCCommand;
+import com.thebetterchoiceminecraft.play.gaming.economy.CurrencyManager;
+import com.thebetterchoiceminecraft.play.gaming.tiers.ItemTierHandler;
+import com.thebetterchoiceminecraft.utils.TBCConfigFile;
+import de.jeff_media.jefflib.TextUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.swing.event.MenuListener;
 import java.util.logging.Logger;
 
 public class TBCPlugin extends JavaPlugin {
     private static TBCPlugin javaPlugin;
-    private static Config mainConfig;
-    private static Config settings;
+    private static TBCConfigFile mainConfig;
     private static final Logger minecraft = Logger.getLogger("Minecraft");
+    private static TBCConfigFile tierConfig;
+    private static TBCConfigFile userConfig;
+    private static CurrencyManager currency;
 
     public static Plugin getPlugin(){
         return javaPlugin;
     }
 
-
-    public static Config getMainConfig() {
+    public static TBCConfigFile getMainConfig() {
         return mainConfig;
+    }
+
+    public static TBCConfigFile getTierConfig() {
+        return tierConfig;
+    }
+        public static TBCConfigFile getUserConfig() {
+        return userConfig;
+    }
+
+    public static CurrencyManager getCurrency() {
+        return currency;
     }
 
 
@@ -30,8 +47,10 @@ public class TBCPlugin extends JavaPlugin {
     public void onLoad() {
         javaPlugin = this;
         String tbcCore = "tbcCore";
-        mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
-        settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
+        mainConfig = new TBCConfigFile(this,"/","config");
+        tierConfig = new TBCConfigFile(this,"/","tiers");
+        userConfig = new TBCConfigFile(this,"/","users");
+
 
         //Load Events Register Listeners
     }
@@ -39,7 +58,7 @@ public class TBCPlugin extends JavaPlugin {
 
     public static void log(String i){
         if (i.startsWith("-")){
-            minecraft.warning("[ T B C S M P ] " +  i);
+            minecraft.warning("[TBC-Plugin] " +  i);
             return;
         }
         if (i.startsWith("!") || i.endsWith("-")){
@@ -51,36 +70,17 @@ public class TBCPlugin extends JavaPlugin {
     }
     private static void log(String s, boolean urgent) {
         if (urgent) {
-            minecraft.warning("[TBC LOGGER] - " + s);
+            minecraft.warning("[TBC-Plugin] - " + s);
             return;
         }
-        minecraft.info("[ T B C - L O G ] " + s);
+        minecraft.info("[TBC-Plugin] " + s);
     }
 
     @Override
     public void onEnable() {
         javaPlugin = this;
-
-        String tbcCore = "tbcCore";
-        mainConfig = new Config( "plugins/" + tbcCore + "/" + "config.yml");
-        settings = new Config("plugins/" + tbcCore + "/" + "settings.yml");
-
         //Here
-        runMessageLoader().init();
-
-
-        log("-Loading Hooked Plugins...");
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MythicMobs")){
-            log("Located MythicMobs");
-        }
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("MMOCore")){
-            log("Located MMOCore");
-        }
-        if (javaPlugin.getServer().getPluginManager().isPluginEnabled("WorldGuard")){
-            log("Located WorldGuard!");
-        }
-        log("-Hooked Plugins Complete");
-
+        currency = new CurrencyManager("Tokens");
 
 
         //TODO - Finish Configurations / OnEnable
@@ -88,6 +88,23 @@ public class TBCPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getCommand("enchants").setExecutor(new Command());
 
+        CoreCommand coreCommand = new TBCCommand();
+
+        PluginCommand tbc = Bukkit.getPluginCommand("TBC");
+
+        if (tbc == null){
+            return;
+        }
+        try {
+            tbc.register(Bukkit.getCommandMap());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (tbc.isRegistered()){
+            TBCPlugin.log("Command TBC Registered Successfully For Now....");
+            return;
+        }
+        Bukkit.getCommandMap().register("thebetterchoice",tbc);
     }
 
 
@@ -96,33 +113,14 @@ public class TBCPlugin extends JavaPlugin {
         super.onDisable();
     }
 
-    public static Config getSettings() {
-        return settings;
-    }
     public static ItemTierHandler itemHandler(){
         return ItemTierHandler.getHandler();
     }
-    public static void debug(String word, int level){
-        if (settings.exists("Debug.Level")){
-            if (settings.getInt("Debug.Level")>level){
-                debug(word);
-            }
-        }
-    }
-    public static void debug(String string){
-        Logger m = Logger.getLogger("Minecraft");
 
-        m.warning(() -> "[TBC] -> " + string);
+    public static void debug(String string){
+        minecraft.warning(() -> TextUtils.color("&c[TBC-Plugin] " + string));
     }
-    public static MessageUtil getMessageUtil(){
-       return getMessageUtil(TBCPlugin.getMainConfig());
-    }
-    private static MessageUtil getMessageUtil(Config toUse){
-        return new MessageUtil(toUse);
-    }
-    private static MessageUtil.MessageLoader runMessageLoader(){
-        return new MessageUtil.MessageLoader();
-    }
+
 
 
     public static TBCPlugin getInstance() {

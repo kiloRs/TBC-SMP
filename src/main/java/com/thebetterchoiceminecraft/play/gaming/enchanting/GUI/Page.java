@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.enchanting.GUI;
+package com.thebetterchoiceminecraft.play.gaming.enchanting.GUI;
 
 import org.apache.commons.lang3.Validate;
 import org.bukkit.ChatColor;

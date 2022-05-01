@@ -1,8 +1,10 @@
-package com.thebetterchoiceminecraft.play.economy;
+package com.thebetterchoiceminecraft.play.utils;
 
 import com.thebetterchoiceminecraft.play.TBCPlugin;
+import com.thebetterchoiceminecraft.utils.TBCConfigFile;
 import net.Indyuce.mmocore.MMOCore;
 import net.Indyuce.mmocore.api.player.profess.PlayerClass;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * Each class listed, with title and name.
@@ -17,6 +19,8 @@ public enum ClassType {
     private final String stelliumPath;
     private final String staminaPath;
     private final PlayerClass playerClass;
+    private FileConfiguration config;
+
     ClassType(String path, String name){
         this.path = path;
         this.name = name;
@@ -48,14 +52,14 @@ public enum ClassType {
      * @return Mana Multiplier Amount
      */
     public double getManaMultiplier(){
-        return TBCPlugin.getMainConfig().exists(manaPath)?TBCPlugin.getMainConfig().getDouble(manaPath):1;
+        return TBCPlugin.getMainConfig().getConfig().contains(manaPath)?TBCPlugin.getMainConfig().getConfig().getDouble(manaPath):1;
     }
 
     /**
      * @return Stamina Multiplier Amount
      */
     public double getStaminaMultiplier(){
-        return TBCPlugin.getMainConfig().exists(staminaPath)?TBCPlugin.getMainConfig().getDouble(staminaPath):1;
+        return TBCPlugin.getMainConfig().getConfig().contains(staminaPath)?TBCPlugin.getMainConfig().getConfig().getInt(staminaPath):1;
 
     }
 
@@ -63,7 +67,9 @@ public enum ClassType {
      * @return Stellium Multiplier Amount (Base COnfig)
      */
     public double getStelliumMultiplier(){
-        return TBCPlugin.getMainConfig().exists(stelliumPath)?TBCPlugin.getMainConfig().getDouble(stelliumPath):1;
+        TBCConfigFile c = TBCPlugin.getMainConfig();
+        config = c.getConfig();
+        return c.getConfig().contains(stelliumPath)? config.getInt(stelliumPath):1;
 
     }
 }

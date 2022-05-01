@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.content;
+package com.thebetterchoiceminecraft.play.gaming.tiers;
 
 import de.jeff_media.jefflib.EnumUtils;
 import net.Indyuce.mmoitems.MMOItems;

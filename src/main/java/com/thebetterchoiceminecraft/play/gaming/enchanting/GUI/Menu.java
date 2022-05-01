@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.enchanting.GUI;
+package com.thebetterchoiceminecraft.play.gaming.enchanting.GUI;
 
 import com.thebetterchoiceminecraft.play.TBCPlugin;
 import org.bukkit.Bukkit;
@@ -9,6 +9,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public abstract class Menu implements InventoryHolder {
         this.playerMenuUtility.getOwner().openInventory(this.inventory);
     }
 
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return this.inventory;
     }
 

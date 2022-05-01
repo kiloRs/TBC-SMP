@@ -1,7 +1,7 @@
 package com.thebetterchoiceminecraft.play.commands;
 
-import com.thebetterchoiceminecraft.play.enchanting.GUI.Page;
-import com.thebetterchoiceminecraft.play.enchanting.GUI.PlayerMenuUtility;
+import com.thebetterchoiceminecraft.play.gaming.enchanting.GUI.Page;
+import com.thebetterchoiceminecraft.play.gaming.enchanting.GUI.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

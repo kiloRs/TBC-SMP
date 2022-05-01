@@ -1,16 +1,24 @@
-package com.thebetterchoiceminecraft.play.content;
+package com.thebetterchoiceminecraft.play.gaming.tiers;
 
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.NBTItem;
+import net.Indyuce.mmoitems.ItemStats;
+import net.Indyuce.mmoitems.MMOItems;
+import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemTierHandler {
     private static ItemTierHandler handler;
-    private String tier_tag = "MMOITEMS_TIER";
+    private String tier_tag = ItemStats.TIER.getNBTPath();
 
-    public ItemTierHandler(String tierTag) {
+    public ItemTierHandler(@Nullable String tierTag) {
         handler = this;
+        if (tierTag == null){
+            this.tier_tag = ItemStats.TIER.getNBTPath();
+            return;
+        }
         this.tier_tag = tierTag;
     }
 
@@ -21,8 +29,14 @@ public class ItemTierHandler {
     public boolean has(Item item) {
         return NBTItem.get(item.getItemStack()).hasTag(tier_tag);
     }
+    public boolean has(ItemStack itemStack){
+        return NBTItem.get(itemStack).hasTag(tier_tag);
+    }
+    public boolean has(MMOItem mmoItem){
+        return mmoItem.hasData(ItemStats.TIER)||NBTItem.get(MMOItems.plugin.getItem(mmoItem.getType(), mmoItem.getId())).hasTag(tier_tag);
+    }
 
-    public void set(Item i, Tiers tiers) {
+    public void addTierTag(Item i, Tiers tiers) {
         NBTItem.get(i.getItemStack()).addTag(new ItemTag(tier_tag, tiers.getDataHandler().getBaseID()));
     }
 

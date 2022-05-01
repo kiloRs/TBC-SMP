@@ -1,7 +1,7 @@
-package com.thebetterchoiceminecraft.play.enchanting;
+package com.thebetterchoiceminecraft.play.gaming.enchanting;
 
 import com.thebetterchoiceminecraft.play.TBCPlugin;
-import com.thebetterchoiceminecraft.play.enchanting.GUI.Menu;
+import com.thebetterchoiceminecraft.play.gaming.enchanting.GUI.Menu;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
@@ -31,12 +31,11 @@ public class MenuListener implements Listener {
         boolean isTakingFromEnchanted = (!inventoryType.equalsIgnoreCase("player") && (action.equals(InventoryAction.PICKUP_ALL) || action.equals(InventoryAction.PICKUP_ONE)) && slot == 19);
         boolean isPlacingToInventory = (inventoryType.equalsIgnoreCase("player") && (action.equals(InventoryAction.PLACE_ALL) || action.equals(InventoryAction.PLACE_ONE)));
         boolean isValidAction = (isTakingFromInventory || isPlacingToEnchant || isTakingFromEnchanted || isPlacingToInventory);
-        if (holder instanceof Menu) {
+        if (holder instanceof Menu menu) {
             if (!isValidAction)
                 e.setCancelled(true);
             if (slot != 19 && e.getCurrentItem() == null)
                 return;
-            Menu menu = (Menu)holder;
             menu.handleMenu(e);
         }
     }
@@ -44,10 +43,11 @@ public class MenuListener implements Listener {
     @EventHandler
     public void onMenuClose(InventoryCloseEvent e) {
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof Menu) {
-            Menu menu = (Menu)holder;
-            if (menu.getInventory().getItem(19) != null)
-                e.getPlayer().getInventory().addItem(menu.getInventory().getItem(19));
+        if (holder instanceof Menu menu) {
+            ItemStack itemUsed = menu.getInventory().getItem(19);
+            if (itemUsed != null) {
+                e.getPlayer().getInventory().addItem(itemUsed);
+            }
             menu.flushRunningTasks();
         }
     }
