@@ -8,7 +8,5 @@ public enum ResourceType {
     private String getName(){
         return this.name().toUpperCase(Locale.ROOT);
     }
-    public String getMultiplierPath(ClassType classType){
-        return classType.getName() + "." + getName() + "." + "Multiplier";}
 
 }

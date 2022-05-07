@@ -9,7 +9,7 @@ public class Messages {
     public static void broadcast(String message) {
         if (message == null)
             return;
-        //Updated this to latest Purpur Component Format
+        //Updated this to the latest Purpur Component Format
         Bukkit.getServer().broadcast(Component.text(coloredMessage(message)));
         //Bukkit.getServer().broadcastMessage(coloredMessage(message));
     }

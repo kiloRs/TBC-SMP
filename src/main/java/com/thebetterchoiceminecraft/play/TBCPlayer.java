@@ -30,6 +30,7 @@ public class TBCPlayer {
     private final net.Indyuce.mmoitems.api.player.PlayerData itemsPlayerData;
     private boolean fullyLoaded = false;
     private final ClassType classType;
+    private boolean rightsAndPrivileges = false;
 
 
     //Special Ones
@@ -64,6 +65,10 @@ public class TBCPlayer {
         this.tbcConfigFile = new TBCConfigFile(this);
         //TODO Phase out this user, in replacement of our own user system. [This uses THEAPI]
         user = API.getUser(storedPlayer.getUniqueId());
+
+        if (mmoPlayerData != null && classType != null && resourcePackStatus != PlayerResourcePackStatusEvent.Status.DECLINED && resourcePackStatus != PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD){
+            rightsAndPrivileges = true;
+        }
 
 
 
@@ -119,4 +124,7 @@ public class TBCPlayer {
         return fullyLoaded;
     }
 
+    public boolean hasRights(){
+        return rightsAndPrivileges;
+    }
 }

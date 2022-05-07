@@ -1,4 +1,4 @@
-package com.thebetterchoiceminecraft.play.gaming.tiers;
+package com.thebetterchoiceminecraft.play.tiers;
 
 import io.lumine.mythic.lib.api.item.ItemTag;
 import io.lumine.mythic.lib.api.item.NBTItem;
