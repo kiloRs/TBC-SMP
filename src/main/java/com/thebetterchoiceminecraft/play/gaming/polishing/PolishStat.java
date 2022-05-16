@@ -19,19 +19,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class PolishStat extends StringListStat {
-    public static ItemStat inst;
+    public static ItemStat inst = new PolishStat();
 
     public PolishStat(){
-        super("Polishing", Material.HONEY_BOTTLE,"Polish System",new String[]{""},new String[]{"all"});
-
-        inst = this;
+        super("Polish", Material.HONEY_BOTTLE,"Polish System",new String[]{""},new String[]{"all"});
     }
 
     public PolishStat(String id, Material mat, String name, String[] lore, String[] types, Material... materials) {
         super(id, mat, name, lore, types, materials);
     }
 
-    @OverrideI
+    @Override
     public StringListData whenInitialized(Object object) {
         return super.whenInitialized(object);
     }

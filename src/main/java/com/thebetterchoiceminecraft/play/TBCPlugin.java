@@ -3,10 +3,10 @@ package com.thebetterchoiceminecraft.play;
 import com.thebetterchoiceminecraft.play.commands.Command;
 import com.thebetterchoiceminecraft.play.commands.CoreCommand;
 import com.thebetterchoiceminecraft.play.commands.TBCCommand;
+import com.thebetterchoiceminecraft.play.hooks.MythicLibHook;
 import com.thebetterchoiceminecraft.utils.TBCConfigFile;
 import de.jeff_media.jefflib.TextUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -81,21 +81,9 @@ public class TBCPlugin extends JavaPlugin {
 
         CoreCommand coreCommand = new TBCCommand();
 
-        PluginCommand tbc = Bukkit.getPluginCommand("TBC");
-
-        if (tbc == null){
-            return;
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicLib")) {
+            new MythicLibHook(this);
         }
-        try {
-            tbc.register(Bukkit.getCommandMap());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (tbc.isRegistered()){
-            TBCPlugin.log("Command TBC Registered Successfully For Now....");
-            return;
-        }
-        Bukkit.getCommandMap().register("thebetterchoice",tbc);
     }
 
 

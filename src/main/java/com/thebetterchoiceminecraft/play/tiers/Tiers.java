@@ -13,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Locale;
 
+/**
+ * Each tier holds a TierDataHandler for each tiers data. Follw this by using dataHandler;
+ */
 public enum Tiers {
     NONE(0, "", "NONE"),
     COMMON(1, "Common.Color", "COMMON"),
@@ -21,8 +24,8 @@ public enum Tiers {
     VERY_RARE(4, "VeryRare.Color", "VERY_RARE"),
     EPIC(5, "Epic.Color", "EPIC"),
     MYTHICAL(6, "Mythical.Color", "MYTHICAL"),
-    LEGENDARY(7, "Legendary.Color", "LEGENDARY");
-
+    LEGENDARY(7, "Legendary.Color", "LEGENDARY"),
+    SECRET(8,"Secret.Color","SECRET");
     private final TierDataHandler dataHandler;
 
 

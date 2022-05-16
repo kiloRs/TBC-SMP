@@ -1,5 +1,6 @@
 package com.thebetterchoiceminecraft.play.tiers;
 
+import com.thebetterchoiceminecraft.play.TBCPlugin;
 import de.jeff_media.jefflib.EnumUtils;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.manager.TierManager;
@@ -13,7 +14,7 @@ public class TierDataHandler {
 
     public TierDataHandler(Tiers t, int x, String pathFound, String id){
         this.number = x;
-        this.colorString = pathFound;
+        this.colorString = TBCPlugin.getTierConfig().getConfig().getString(pathFound);
         this.id = id;
         TierManager m = MMOItems.plugin.getTiers();
         this.enhancedTier = x==5||x==6||x==7;
