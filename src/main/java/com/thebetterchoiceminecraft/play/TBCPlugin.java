@@ -1,12 +1,8 @@
 package com.thebetterchoiceminecraft.play;
 
 import com.thebetterchoiceminecraft.play.commands.Command;
-import com.thebetterchoiceminecraft.play.commands.CoreCommand;
-import com.thebetterchoiceminecraft.play.commands.TBCCommand;
-import com.thebetterchoiceminecraft.play.hooks.MythicLibHook;
 import com.thebetterchoiceminecraft.utils.TBCConfigFile;
 import de.jeff_media.jefflib.TextUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -76,14 +72,11 @@ public class TBCPlugin extends JavaPlugin {
 
         //TODO - Finish Configurations / OnEnable
 
-//        getServer().getPluginManager().registerEvents(new MenuListener(this), this);
+
+//     getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getCommand("enchants").setExecutor(new Command());
 
-        CoreCommand coreCommand = new TBCCommand();
 
-        if (Bukkit.getPluginManager().isPluginEnabled("MythicLib")) {
-            new MythicLibHook(this);
-        }
     }
 
 
